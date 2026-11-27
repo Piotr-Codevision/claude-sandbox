@@ -662,13 +662,21 @@ dataset = evaluator.generate_dataset(
 # This function is executed once for each test case
 def run_prompt(prompt_inputs):
     prompt = f"""
-What should this person eat?
+    Generate a one-day meal plan for an athlete that meets their dietary restrictions.
 
-- Height: {prompt_inputs["height"]}
-- Weight: {prompt_inputs["weight"]}
-- Goal: {prompt_inputs["goal"]}
-- Dietary restrictions: {prompt_inputs["restrictions"]}
-"""
+    - Height: {prompt_inputs["height"]}
+    - Weight: {prompt_inputs["weight"]}
+    - Goal: {prompt_inputs["goal"]}
+    - Dietary restrictions: {prompt_inputs["restrictions"]}
+
+    Guidelines:
+    1. Include accurate daily calorie amount
+    2. Show protein, fat, and carb amounts  
+    3. Specify when to eat each meal
+    4. Use only foods that fit restrictions
+    5. List all portion sizes in grams
+    6. Keep budget-friendly if mentioned
+    """
     
     messages = []
     add_user_message(messages, prompt)
@@ -678,9 +686,9 @@ results = evaluator.run_evaluation(
     run_prompt_function=run_prompt,
     dataset_file="dataset.json",
     extra_criteria="""
-The output should include:
-- Daily caloric total
-- Macronutrient breakdown  
-- Meals with exact foods, portions, and timing
-"""
+    The output should include:
+    - Daily caloric total
+    - Macronutrient breakdown  
+    - Meals with exact foods, portions, and timing
+    """
 )
